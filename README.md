@@ -4,6 +4,7 @@ matplotlib-cpp
 Welcome to matplotlib-cpp, possibly the simplest C++ plotting library.
 It is built to resemble the plotting API used by Matlab and matplotlib.
 
+This is a forked repository and I add some tricks to handle both string value and double value generally for arguments input.
 
 
 Usage
@@ -232,14 +233,11 @@ target_include_directories(myproject PRIVATE ${PYTHON_INCLUDE_DIRS})
 target_link_libraries(myproject ${PYTHON_LIBRARIES})
 ```
 
-# C++11
+# C++17
 
-Currently, c++11 is required to build matplotlib-cpp. The last working commit that did
+Currently, c++17 is required to build matplotlib-cpp. The last working commit that did
 not have this requirement was `717e98e752260245407c5329846f5d62605eff08`.
 
-Note that support for c++98 was dropped more or less accidentally, so if you have to work
-with an ancient compiler and still want to enjoy the latest additional features, I'd
-probably merge a PR that restores support.
 
 # Python 3
 

@@ -1,5 +1,5 @@
-# Use C++11
-CXXFLAGS += -std=c++11
+# Use C++17
+CXXFLAGS += -std=c++17
 
 # Default to using system's default version of python
 PYTHON_BIN     ?= python
