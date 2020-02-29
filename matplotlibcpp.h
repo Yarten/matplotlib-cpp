@@ -92,7 +92,7 @@ namespace matplotlibcpp
             PyObject *s_python_function_suptitle;
             PyObject *s_python_function_bar;
             PyObject *s_python_function_subplots_adjust;
-
+            PyObject *s_python_function_rc;
 
             /* For now, _interpreter is implemented as a singleton since its currently not possible to have
                multiple independent embedded python interpreters without patching the python source code
@@ -235,6 +235,7 @@ namespace matplotlibcpp
                 s_python_function_suptitle = safe_import(pymod, "suptitle");
                 s_python_function_bar = safe_import(pymod, "bar");
                 s_python_function_subplots_adjust = safe_import(pymod, "subplots_adjust");
+                s_python_function_rc = safe_import(matplotlib, "rc");
 #ifndef WITHOUT_NUMPY
                 s_python_function_imshow = safe_import(pymod, "imshow");
 #endif
@@ -1713,6 +1714,26 @@ namespace matplotlibcpp
         Py_DECREF(res);
 
         return out;
+    }
+
+    void rc(const std::string& group, const std::vector<detail::Keyword> &keywords = {})
+    {
+        detail::_interpreter::get();
+
+        PyObject *group_name = PyString_FromString(group.c_str());
+
+        PyObject *args = PyTuple_New(1);
+        PyTuple_SetItem(args, 0, group_name);
+
+        PyObject* kwargs = detail::ConstructKeywordArgs(keywords);
+        PyObject *res = PyObject_Call(detail::_interpreter::get().s_python_function_rc, args, kwargs );
+
+        if (!res) throw std::runtime_error("Call to rc() failed.");
+
+        Py_DECREF(res);
+        // Py_DECREF(args);  must comment this args, otherwise not work.
+        Py_DECREF(group_name);
+        Py_DECREF(kwargs);
     }
 
 // Actually, is there any reason not to call this automatically for every plot?
